@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Rodoku</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<h1>Rodoku</h1>
+<p>マイクに話しかけてください。</p>
+<p>状態：<span id="status" style="font-weight:bold;">待機中</span></p>
+
+<div style="text-align: center;">
+  <canvas style="border:1px solid #333; margin: 0px auto;"></canvas>
+</div>
+
+<p><a id="download" target="_blank">ダウンロード</a></p>
+
+<script src="/js/jquery-1.11.2.min.js"></script>
+<script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
+<script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+*
+{
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+html   { font-size: 62.5%;  }
+html * { font-size: 1.4rem; }
+
+body
+{
+    width: 690px;
+    margin: 25px auto;
+}
+
+h1,
+footer
+{ text-align: center; }
+
+h1
+{
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+}
+
+h2, h3
+{
+    margin-top: 30px;
+}
+
+h2
+{
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+}
+
+h3
+{
+    font-size: 1.6rem;
+}
+
+a
+{
+    color: #17d;
+    text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+ul
+{
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+p, li { line-height: 1.6; }
+
+ul.error    { margin-bottom: 15px; }
+ul.error li { color: #f33;         }
+
+p
+{
+    letter-spacing: 2px;
+    margin: 0px;
+    margin-bottom: 12px;
+}
+
+form p { margin-left: 20px; }
+
+pre, p.moji-list
+{
+    font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+}
+
+p.moji-list
+{
+    font-size: 1.2rem;
+    line-height: 1.0;
+}
+
+pre
+{
+    font-size: 1.4rem;
+    line-height: 1.2;
+}
+
+input[type="text"],
+select
+{ padding: 2px; }
+
+input.gen
+{
+    width: 480px;
+    height: 40px;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+}
+
+table { width: 100%; }
+
+table th,
+table td
+{
+    border: 1px solid #999;
+}
+
+th, td { padding: 5px; }
+
+th { background-color: #ddd; }
+
+tr:nth-child(even) { background-color: #f3f3f3; }
+
+table#link    { text-align: center; margin: 40px auto 0px auto; width: auto; }
+table#link *  { font-size: 1.1rem; }
+table#link td { border: 0px; padding: 0px; padding-right: 10px; vertical-align: top; }
+
+input.name { width: 12rem; }
+input[placeholder="珍しさの値"] { width: 9rem; }
+
+footer { margin-top: 35px; }
+
+img.bordered {  }
+
+#container    { margin: 0px 20px;    } /* スマホ・タブレット用 */
+#bread-crumbs { margin-bottom: 25px; }
+
+.first-last, p#middlename { display: none; }
+
+span.middlename { color: #777; }
