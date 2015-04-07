@@ -17,8 +17,6 @@ sub voice2wav
     # クライアントの接続のタイムアウト時間の変更
     $self->inactivity_timeout($config->{inactivity_timeout});
 
-    #my $wav = Audio::Wav->new(debug => 1);
-
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
@@ -30,10 +28,10 @@ sub voice2wav
         close($fh);
     });
 
-    $self->on(text => sub {
-        my ($ws, $text) = @_;
+    $self->on(message => sub {
+        my ($ws, $msg) = @_;
 
-        warn $text;
+        # keep alive
     });
 }
 
