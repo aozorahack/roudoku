@@ -28,7 +28,7 @@ sub voice2wav
         close($fh);
     });
 
-    $self->on(message => sub {
+    $self->on(text => sub {
         my ($ws, $msg) = @_;
 
         # keep alive
