@@ -7,7 +7,7 @@ var ws                  = new WebSocket(uri);
 
 ws.onopen = function()
 {
-    console.log('ws onopen');
+    //console.log('ws onopen');
 
     setInterval(function()
     {
@@ -284,7 +284,7 @@ function playVoice(data)
     //console.log(channel);
 
     // WAV形式に変換
-    var dataview  = encodeWAV(data);
+    var dataview  = encodeWAV(mergeBuffers(data));
     var audioBlob = new Blob([ dataview ], { type: "audio/wav" });
     var url       = window.URL.createObjectURL(audioBlob);
 
@@ -315,15 +315,40 @@ function writeString(view, offset, string)
 // https://github.com/mattdiamond/Recorderjs/blob/master/recorderWorker.js より
 function floatTo16BitPCM(output, offset, input)
 {
-    for (var i = 0; i < input.length; i++, offset+=2)
+    for (var i = 0; i < input.length; i++, offset += 2)
     {
         var s = Math.max(-1, Math.min(1, input[i]));
         output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
     }
 }
 
+// Ref. http://qiita.com/HirokiTanaka/items/56f80844f9a32020ee3b
+function mergeBuffers(audioData)
+{
+    var sampleLength = 0;
+
+    for (var i = 0; i < audioData.length; i++)
+    {
+        sampleLength += audioData[i].length;
+    }
+
+    var samples   = new Float32Array(sampleLength);
+    var sampleIdx = 0;
+
+    for (var i = 0; i < audioData.length; i++)
+    {
+        for (var j = 0; j < audioData[i].length; j++)
+        {
+            samples[sampleIdx] = audioData[i][j];
+            sampleIdx++;
+        }
+    }
+
+    return samples;
+}
+
 // https://github.com/mattdiamond/Recorderjs/blob/master/recorderWorker.js より
-// sample: Float32array
+// samples: Float32array
 function encodeWAV(samples)
 {
     /*
@@ -336,7 +361,11 @@ function encodeWAV(samples)
      * https://developer.mozilla.org/ja/docs/Web/JavaScript/Typed_arrays/DataView より
      */
 
-    console.log(samples.length);
+    /*
+     * setUintew(unsigned long byteOffset, unsigned long value, optional boolean littleEndian);
+     */
+
+    //console.log(samples.length);
 
     var buffer = new ArrayBuffer(44 + samples.length * 2);
     var view   = new DataView(buffer);
@@ -345,7 +374,7 @@ function encodeWAV(samples)
     writeString(view, 0, 'RIFF');
 
     /* RIFF chunk length */
-    view.setUint32(4, 36 + samples.length * 2, true);
+    view.setUint32(4, 32 + samples.length * 2, true);
 
     /* RIFF type */
     writeString(view, 8, 'WAVE');
@@ -354,19 +383,22 @@ function encodeWAV(samples)
     writeString(view, 12, 'fmt ');
 
     /* format chunk length */
+    /* リニアPCMならば16   */
     view.setUint32(16, 16, true);
 
     /* sample format (raw) */
+    /* リニアPCMならば1    */
     view.setUint16(20, 1, true);
 
-    /* channel count */
+    /* channel count                   */
+    /* モノラルならば1 ステレオならば2 */
     view.setUint16(22, numChannels, true);
 
     /* sample rate */
     view.setUint32(24, sampleRate, true);
 
     /* byte rate (sample rate * block align) */
-    view.setUint32(28, sampleRate * 4, true);
+    view.setUint32(28, sampleRate * 2, true);
 
     /* block align (channel count * bytes per sample) */
     view.setUint16(32, numChannels * 2, true);
