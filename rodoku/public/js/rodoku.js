@@ -7,11 +7,9 @@ var ws                  = new WebSocket(uri);
 
 ws.onopen = function()
 {
-    //console.log('ws onopen');
-
     setInterval(function()
     {
-        if (ws.readState === 1) ws.send('keep-alive');
+        if (ws.readyState === 1) ws.send('keep-alive');
     }
     , keep_alive_interval);
 };
