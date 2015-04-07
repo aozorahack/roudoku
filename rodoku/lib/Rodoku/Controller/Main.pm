@@ -1,5 +1,6 @@
 package Rodoku::Controller::Main;
 use Mojo::Base 'Mojolicious::Controller';
+use Encode ();
 
 sub top { shift->render; }
 
@@ -20,12 +21,41 @@ sub voice2wav
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
-        my $filename = $config->{rodoku_voice_dir} . $self->uniqkey . '_'  . $self->timestampf . '.wav';
+        my $file_path = $config->{rodoku_voice_dir} . $self->uniqkey . '_'  . $self->timestampf . '.wav';
 
-        open(my $fh, '>', $filename) or die $!;
+        # 音声をファイルに保存
+        open(my $fh, '>', $file_path) or die $!;
         binmode($fh);
         print {$fh} $bytes;
         close($fh);
+    });
+
+    $self->on(json => sub {
+        my ($ws, $json) = @_;
+
+        my $type = $json->{type};
+
+        return unless defined $type;
+
+        if ($type eq 'text-select')
+        {
+            my $text_name = $json->{'text-name'};
+            my $file_path = $config->{rodoku_text_dir} . $text_name . '.txt';
+
+            if ( $text_name =~ /^[a-zA-Z0-9]+$/ && -e $file_path )
+            {
+
+                open(my $fh, '<', $file_path) or $tx->send( { json => { type => $type, error => 'ファイルの読み込みに失敗しました。' } } );
+                my $text = Encode::decode_utf8( do { local $/; <$fh> } );
+                close($fh);
+
+                $tx->send( { json => { type => $type, text => $text } } );
+            }
+            else
+            {
+                $tx->send( { json => { type => $type, error => '朗読するテキストの選択が不正です。' } } );
+            }
+        }
     });
 
     $self->on(text => sub {
