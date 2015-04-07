@@ -25,7 +25,7 @@ sub startup
     # ルーティング
     my $r = $self->routes;
     $r->get('/')->to('main#top');
-    $r->post('/voice2wav')->to('main#voice2wav');
+    $r->websocket('/voice2wav')->to('main#voice2wav');
 }
 
 1;

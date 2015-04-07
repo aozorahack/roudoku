@@ -1,7 +1,24 @@
 "use strict";
 
 // WAVデータ送信用
-var xhr= new XMLHttpRequest();
+var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
+var uri                 = 'ws://' + location.hostname + '/voice2wav';
+var ws                  = new WebSocket(uri);
+
+ws.onopen = function()
+{
+    console.log('ws onopen');
+
+    setInterval(function()
+    {
+        if (ws.readState === 1) ws.send('keep-alive');
+    }
+    , keep_alive_interval);
+};
+
+ws.onclose   = function()  { console.log('接続が切れました'); };
+ws.onerror   = function(e) { console.log(e);                  };
+ws.onmessage = function(e) { };
 
 // 音声バッファ時間(音声録音開始前時間)
 // この値が音声録音開始イベント前の音声録音時間
@@ -276,17 +293,9 @@ function playVoice(data)
     console.log(audioBlob);
     */
 
+    ws.send(audioBlob);
+
     document.getElementById('download').href = url;
-
-    // XHRで音声データをサーバーへ送信
-    xhr.open("POST", "/voice2wav");
-    xhr.send(audioBlob);
-
-    // コールバックで結果を受け取る
-    xhr.onload = function (e)
-    {
-        console.log(e);
-    };
 
     function srcendedCallback(event)
     {
