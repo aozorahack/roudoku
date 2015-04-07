@@ -4,12 +4,19 @@
 
 : include layouts::header
 
-<p>マイクに話しかけてください。</p>
-<p>状態：<span id="status" style="font-weight:bold;">待機中</span></p>
+<p>マイクを使って朗読しよう♪</p>
+<p>状態：<span id="status">待機中</span></p>
 
-<div style="text-align: center;">
-  <canvas style="border: 1px solid #333;"></canvas>
+<div id="visualization">
+  <canvas></canvas>
 </div>
+
+<p>朗読するテキスト：<select id="rodoku_text">
+  <option value="" selected>選択してください</option>
+  <option value="hayakuchi">早口言葉</option>
+  <option value="yukinoyoru">雪の夜の話</option>
+  <option value="yamanashi">やまなし</option>
+</select></p>
 
 <p><a id="download" target="_blank">ダウンロード</a></p>
 
@@ -17,5 +24,6 @@
 
 <script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
 <script src="/js/rodoku.js"></script>
+<script src="/js/nehan.js"></script>
 
 : }

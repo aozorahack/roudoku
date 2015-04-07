@@ -16,12 +16,21 @@ body
     margin: 25px auto;
 }
 
+a
+{
+    color: #17d;
+    text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
 h1,
 footer
 { text-align: center; }
 
-h1
+h1, h1 *
 {
+    color: #333;
     font-size: 2.2rem;
     letter-spacing: 2px;
 }
@@ -42,14 +51,6 @@ h3
     font-size: 1.6rem;
 }
 
-a
-{
-    color: #17d;
-    text-decoration: none;
-}
-
-a:hover { text-decoration: underline; }
-
 ul
 {
     margin-top: 0px;
@@ -57,6 +58,12 @@ ul
 }
 
 p, li { line-height: 1.6; }
+
+canvas
+{
+    border: 1px solid #333;
+    margin-bottom: 20px;
+}
 
 ul.error    { margin-bottom: 15px; }
 ul.error li { color: #f33;         }
@@ -70,63 +77,9 @@ p
 
 form p { margin-left: 20px; }
 
-pre, p.moji-list
-{
-    font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
-}
-
-p.moji-list
-{
-    font-size: 1.2rem;
-    line-height: 1.0;
-}
-
-pre
-{
-    font-size: 1.4rem;
-    line-height: 1.2;
-}
-
 input[type="text"],
 select
 { padding: 2px; }
 
-input.gen
-{
-    width: 480px;
-    height: 40px;
-    font-size: 1.5rem;
-    letter-spacing: 1.5px;
-}
-
-table { width: 100%; }
-
-table th,
-table td
-{
-    border: 1px solid #999;
-}
-
-th, td { padding: 5px; }
-
-th { background-color: #ddd; }
-
-tr:nth-child(even) { background-color: #f3f3f3; }
-
-table#link    { text-align: center; margin: 40px auto 0px auto; width: auto; }
-table#link *  { font-size: 1.1rem; }
-table#link td { border: 0px; padding: 0px; padding-right: 10px; vertical-align: top; }
-
-input.name { width: 12rem; }
-input[placeholder="珍しさの値"] { width: 9rem; }
-
-footer { margin-top: 35px; }
-
-img.bordered {  }
-
-#container    { margin: 0px 20px;    } /* スマホ・タブレット用 */
-#bread-crumbs { margin-bottom: 25px; }
-
-.first-last, p#middlename { display: none; }
-
-span.middlename { color: #777; }
+div#visualization { text-align: center; }
+span#status       { font-weight: bold;  }
