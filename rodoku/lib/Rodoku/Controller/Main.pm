@@ -22,7 +22,9 @@ sub voice2wav
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
-        open(my $fh, '>', 'voice.wav') or die $!;
+        my $filename = $config->{rodoku_voice_dir} . $self->uniqkey . '_'  . $self->timestampf . '.wav';
+
+        open(my $fh, '>', $filename) or die $!;
         binmode($fh);
         print {$fh} $bytes;
         close($fh);
