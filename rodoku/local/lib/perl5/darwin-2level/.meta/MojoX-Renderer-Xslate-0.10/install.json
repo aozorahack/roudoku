@@ -1,1 +1,0 @@
-{"version":"0.10","dist":"MojoX-Renderer-Xslate-0.10","target":"MojoX::Renderer::Xslate","name":"MojoX::Renderer::Xslate","provides":{"MojoX::Renderer::Xslate":{"file":"lib/MojoX/Renderer/Xslate.pm","version":"0.10"},"Mojolicious::Plugin::XslateRenderer":{"file":"lib/Mojolicious/Plugin/XslateRenderer.pm"}},"pathname":"G/GR/GRAY/MojoX-Renderer-Xslate-0.10.tar.gz"}
