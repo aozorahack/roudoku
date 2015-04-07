@@ -3,4 +3,5 @@ rodoku/_*
 rodoku/local/*
 rodoku/log/*
 rodoku/tmp/*
+rodoku/rodoku_voice/*
 rodoku/cpanfile.snapshot
