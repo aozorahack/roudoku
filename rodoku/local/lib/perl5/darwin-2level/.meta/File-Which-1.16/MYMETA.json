@@ -1,0 +1,60 @@
+{
+   "abstract" : "Portable implementation of the \"which\" utility",
+   "author" : [
+      "Adam Kennedy <adamk@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.04, CPAN::Meta::Converter version 2.143240, CPAN::Meta::Converter version 2.141520",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "File-Which",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Exporter" : "0",
+            "File::Spec" : "0.60",
+            "Getopt::Std" : "0",
+            "perl" : "5.005003"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.80"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/plicease/File-Which/issues"
+      },
+      "homepage" : "https://metacpan.org/pod/File::Which",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/plicease/File-Which.git",
+         "web" : "https://github.com/plicease/File-Which"
+      }
+   },
+   "version" : "1.16"
+}

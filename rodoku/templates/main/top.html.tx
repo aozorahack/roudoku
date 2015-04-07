@@ -1,0 +1,21 @@
+: cascade layouts::default { meta_description => $config.catch_copy }
+
+: around body -> {
+
+: include layouts::header
+
+<p>マイクに話しかけてください。</p>
+<p>状態：<span id="status" style="font-weight:bold;">待機中</span></p>
+
+<div style="text-align: center;">
+  <canvas style="border: 1px solid #333;"></canvas>
+</div>
+
+<p><a id="download" target="_blank">ダウンロード</a></p>
+
+: include layouts::footer
+
+<script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
+<script src="/js/rodoku.js"></script>
+
+: }

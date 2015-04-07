@@ -1,0 +1,90 @@
+[Tue Apr  7 11:01:51 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:01:51 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:06:41 2015] [debug] GET "/"
+[Tue Apr  7 11:06:41 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:06:41 2015] [debug] 200 OK (0.152769s, 6.546/s)
+[Tue Apr  7 11:06:42 2015] [debug] GET "/js/rodoku.js"
+[Tue Apr  7 11:06:42 2015] [debug] Template "not_found.development.html.ep" not found
+[Tue Apr  7 11:06:42 2015] [debug] Template "not_found.html.ep" not found
+[Tue Apr  7 11:06:42 2015] [debug] Rendering inline template "fd403ab55a4c875e35b42428816134c7"
+[Tue Apr  7 11:06:42 2015] [debug] Rendering inline template "dd85456cf9f44e1e43bebae130a7f9df"
+[Tue Apr  7 11:06:42 2015] [debug] 404 Not Found (0.173653s, 5.759/s)
+[Tue Apr  7 11:09:18 2015] [debug] GET "/"
+[Tue Apr  7 11:09:18 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:09:18 2015] [debug] 200 OK (0.001113s, 898.473/s)
+[Tue Apr  7 11:11:14 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:11:14 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:11:17 2015] [debug] GET "/"
+[Tue Apr  7 11:11:17 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:11:17 2015] [debug] 200 OK (0.063180s, 15.828/s)
+[Tue Apr  7 11:11:18 2015] [debug] GET "/css/normalize.css"
+[Tue Apr  7 11:11:18 2015] [debug] Template "not_found.development.html.ep" not found
+[Tue Apr  7 11:11:18 2015] [debug] Template "not_found.html.ep" not found
+[Tue Apr  7 11:11:18 2015] [debug] Rendering inline template "fd403ab55a4c875e35b42428816134c7"
+[Tue Apr  7 11:11:18 2015] [debug] Rendering inline template "dd85456cf9f44e1e43bebae130a7f9df"
+[Tue Apr  7 11:11:18 2015] [debug] 404 Not Found (0.025648s, 38.989/s)
+[Tue Apr  7 11:12:21 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:12:21 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:12:23 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:12:23 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:12:27 2015] [debug] GET "/"
+[Tue Apr  7 11:12:27 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:12:27 2015] [debug] 200 OK (0.057292s, 17.454/s)
+[Tue Apr  7 11:12:27 2015] [debug] GET "/css/normalize.css"
+[Tue Apr  7 11:12:27 2015] [debug] Template "not_found.development.html.ep" not found
+[Tue Apr  7 11:12:27 2015] [debug] Template "not_found.html.ep" not found
+[Tue Apr  7 11:12:27 2015] [debug] Rendering inline template "fd403ab55a4c875e35b42428816134c7"
+[Tue Apr  7 11:12:27 2015] [debug] Rendering inline template "dd85456cf9f44e1e43bebae130a7f9df"
+[Tue Apr  7 11:12:27 2015] [debug] 404 Not Found (0.042395s, 23.588/s)
+[Tue Apr  7 11:13:27 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:13:27 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:13:29 2015] [debug] GET "/"
+[Tue Apr  7 11:13:29 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:13:29 2015] [debug] 200 OK (0.061950s, 16.142/s)
+[Tue Apr  7 11:13:29 2015] [debug] GET "/css/normalize.css"
+[Tue Apr  7 11:13:29 2015] [debug] Template "not_found.development.html.ep" not found
+[Tue Apr  7 11:13:29 2015] [debug] Template "not_found.html.ep" not found
+[Tue Apr  7 11:13:29 2015] [debug] Rendering inline template "fd403ab55a4c875e35b42428816134c7"
+[Tue Apr  7 11:13:29 2015] [debug] Rendering inline template "dd85456cf9f44e1e43bebae130a7f9df"
+[Tue Apr  7 11:13:29 2015] [debug] 404 Not Found (0.037577s, 26.612/s)
+[Tue Apr  7 11:14:58 2015] [debug] GET "/"
+[Tue Apr  7 11:14:58 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:14:58 2015] [debug] 200 OK (0.000823s, 1215.067/s)
+[Tue Apr  7 11:15:10 2015] [debug] GET "/"
+[Tue Apr  7 11:15:10 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:15:10 2015] [debug] 200 OK (0.001184s, 844.595/s)
+[Tue Apr  7 11:15:49 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:15:49 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:16:00 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:16:00 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:16:33 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:16:33 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:16:40 2015] [debug] GET "/"
+[Tue Apr  7 11:16:40 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:16:40 2015] [debug] 200 OK (0.067871s, 14.734/s)
+[Tue Apr  7 11:16:42 2015] [debug] GET "/"
+[Tue Apr  7 11:16:42 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:16:42 2015] [debug] 200 OK (0.000468s, 2136.752/s)
+[Tue Apr  7 11:16:58 2015] [debug] POST "/"
+[Tue Apr  7 11:16:58 2015] [debug] Template "not_found.development.html.ep" not found
+[Tue Apr  7 11:16:58 2015] [debug] Template "not_found.html.ep" not found
+[Tue Apr  7 11:16:58 2015] [debug] Rendering inline template "fd403ab55a4c875e35b42428816134c7"
+[Tue Apr  7 11:16:58 2015] [debug] Rendering inline template "dd85456cf9f44e1e43bebae130a7f9df"
+[Tue Apr  7 11:16:58 2015] [debug] 404 Not Found (0.038491s, 25.980/s)
+[Tue Apr  7 11:17:57 2015] [debug] GET "/"
+[Tue Apr  7 11:17:57 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:17:57 2015] [debug] 200 OK (0.001088s, 919.118/s)
+[Tue Apr  7 11:18:05 2015] [debug] POST "/voice2wav"
+[Tue Apr  7 11:18:05 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "voice2wav"
+[Tue Apr  7 11:18:05 2015] [debug] Template "main/voice2wav.html.ep" not found
+[Tue Apr  7 11:18:05 2015] [debug] Nothing has been rendered, expecting delayed response
+[Tue Apr  7 11:18:22 2015] [debug] Your secret passphrase needs to be changed
+[Tue Apr  7 11:18:22 2015] [debug] Reading configuration file "/Users/kohei/Desktop/www/rodoku/rodoku.conf"
+[Tue Apr  7 11:18:25 2015] [debug] GET "/"
+[Tue Apr  7 11:18:25 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "top"
+[Tue Apr  7 11:18:25 2015] [debug] 200 OK (0.005938s, 168.407/s)
+[Tue Apr  7 11:18:32 2015] [debug] POST "/voice2wav"
+[Tue Apr  7 11:18:32 2015] [debug] Routing to controller "Rodoku::Controller::Main" and action "voice2wav"
+[Tue Apr  7 11:18:32 2015] [debug] Template "main/voice2wav.html.ep" not found
+[Tue Apr  7 11:18:32 2015] [debug] Nothing has been rendered, expecting delayed response
+[Tue Apr  7 11:18:47 2015] [debug] Inactivity timeout
