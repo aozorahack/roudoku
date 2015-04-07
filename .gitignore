@@ -1,5 +1,6 @@
 .DS_Store
-rodoku/local/
+rodoku/_*
+rodoku/local/*
 rodoku/log/*
 rodoku/tmp/*
 rodoku/cpanfile.snapshot
