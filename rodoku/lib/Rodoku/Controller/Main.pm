@@ -21,6 +21,8 @@ sub voice2wav
     # WebSocketのメッセージサイズの最大値を変更
     $tx->max_websocket_size($config->{max_websocket_size});
 
+    my $username = $config->{default_username};
+
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
@@ -59,6 +61,17 @@ sub voice2wav
                 $tx->send( { json => { type => $type, error => '朗読するテキストの選択が不正です。' } } );
             }
         }
+        elsif ($type eq 'username-change')
+        {
+            if ($json->{username} =~ /^\p{InUserName}+$/)
+            {
+                $username = $json->{username};
+            }
+            else
+            {
+                $tx->send( { json => { type => $type, error => 'ひらがな・カタカナ・アルファベット・漢字で入力してください' } } );
+            }
+        }
     });
 
     $self->on(text => sub {
@@ -66,6 +79,26 @@ sub voice2wav
 
         # keep alive
     });
+}
+
+sub InUserName
+{
+    # 0021-007E 英語のアルファベットや半角の記号など
+    # 3005      々
+    # 3041-3096 ひらがな
+    # 309D      ゝ
+    # 309E      ゞ
+    # 30A1-30FE カタカナ
+
+    return <<"END";
+0021\t007E
+3005
+3041\t3096
+309D
+309E
+30A1\t30FE
++utf8::Han
+END
 }
 
 1;

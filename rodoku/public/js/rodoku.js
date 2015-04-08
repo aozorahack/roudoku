@@ -53,6 +53,9 @@ $(function()
     var pe;
     var page_list = [];
 
+    // 投稿時の名前
+    var username_elem = $("#rodoku_submit #profile input[type='text']");
+
     // その他
     var numChannels = 1;
 
@@ -456,8 +459,16 @@ $(function()
 
         if (data.error)
         {
-            console.log(data.error);
-            return;
+            if (data.type === 'text-select')
+            {
+                console.log(data.error);
+                return;
+            }
+            else if (data.type === 'username-change')
+            {
+                username_elem.val("ななし");
+                alert(data.error);
+            }
         }
 
         if (data.type === 'text-select') { load_text_change(data.text); }
@@ -476,6 +487,7 @@ $(function()
         ws.send( JSON.stringify({ "type": "text-select", "text-name": selected_text }) );
     });
 
+    // 「朗読を投稿する」画像をクリック時の処理
     $("#rodoku_submit img").on("click", function()
     {
         var savedVoice = [];
@@ -555,6 +567,13 @@ $(function()
         }
 
         update_page_no();
+    });
+
+    // 朗読者の名前の更新処理
+    username_elem.on("change", function()
+    {
+        var username = $(this).val();
+        ws.send( JSON.stringify({ "type": "username-change", "username": username }) );
     });
 
     $("body").on("click", "span.savedVoice", function()
