@@ -2,34 +2,10 @@
 
 $(function()
 {
-    // WAVデータ送信用
+    // WAVデータ・朗読するテキストの名前の送信用
     var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
     var uri                 = 'ws://' + location.hostname + '/voice2wav';
     var ws                  = new WebSocket(uri);
-
-    ws.onopen = function()
-    {
-        setInterval(function()
-        {
-            if (ws.readyState === 1) ws.send('keep-alive');
-        }
-        , keep_alive_interval);
-    };
-
-    ws.onclose   = function()  { console.log('接続が切れました'); };
-    ws.onerror   = function(e) { console.log(e);                  };
-    ws.onmessage = function(e)
-    {
-        var data = JSON.parse(e.data);
-
-        if (data.error)
-        {
-            console.log(data.error);
-            return;
-        }
-
-        if (data.type === 'text-select') { load_text_change(data.text); }
-    };
 
     // 音声バッファ時間(音声録音開始前時間)
     // この値が音声録音開始イベント前の音声録音時間
@@ -38,6 +14,7 @@ $(function()
     // ここに録音用音声データを保存
     var recentReceivedVoice = null;
     var recentSavedVoice    = null;
+    var savedVoice          = [];
 
     var is_recording = false; // 音声録音中か否か
     var is_playing   = false; // 音声再生中か否か
@@ -294,6 +271,11 @@ $(function()
 
         //console.log(channel);
 
+        for (var i = 0; i < data.length; i++)
+        {
+            savedVoice.push(data[i]);
+        }
+
         // WAV形式に変換
         var dataview  = encodeWAV(mergeBuffers(data));
         var audioBlob = new Blob([ dataview ], { type: "audio/wav" });
@@ -304,9 +286,22 @@ $(function()
         console.log(audioBlob);
         */
 
-        ws.send(audioBlob);
+        //ws.send(audioBlob);
 
-        document.getElementById('download').href = url;
+        $("#rodoku_submit").show("normal");
+
+        var now    = new Date();
+        var year   = now.getFullYear();
+        var month  = now.getMonth() + 1;
+        var week   = now.getDay();
+        var day    = now.getDate();
+        var hour   = now.getHours();
+        var minute = now.getMinutes();
+        var second = now.getSeconds();
+
+        var time = year + "年" + month + "月" + day + "日 " + hour + "時" + minute + "分" + second + "秒";
+
+        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a></li>');
 
         function srcendedCallback(event)
         {
@@ -428,6 +423,35 @@ $(function()
         return view;
     }
 
+    ws.onopen = function()
+    {
+        setInterval(function()
+        {
+            if (ws.readyState === 1) ws.send('keep-alive');
+        }
+        , keep_alive_interval);
+    };
+
+    ws.onclose = function()
+    {
+        status_elem.innerText   = "接続が切れました。ページを再度読み込んでみてください。";
+        status_elem.style.color = "red";
+        console.log('接続が切れました');
+    };
+    ws.onerror   = function(e) { console.log(e); };
+    ws.onmessage = function(e)
+    {
+        var data = JSON.parse(e.data);
+
+        if (data.error)
+        {
+            console.log(data.error);
+            return;
+        }
+
+        if (data.type === 'text-select') { load_text_change(data.text); }
+    };
+
     // オーディオバッファ初期化
     initAudioData();
 
@@ -439,6 +463,29 @@ $(function()
     {
         var selected_text = $(this).val();
         ws.send( JSON.stringify({ "type": "text-select", "text-name": selected_text }) );
+    });
+
+    $("#rodoku_submit img").on("click", function()
+    {
+        var dataview  = encodeWAV(mergeBuffers(savedVoice));
+        var audioBlob = new Blob([ dataview ], { type: "audio/wav" });
+
+        ws.send(audioBlob); // 音声データを結合して保存
+
+        // 次の朗読に備えてクリア
+        $("#voice_list").empty();
+        $("#rodoku_submit").hide("normal");
+        savedVoice = [];
+    });
+
+    $("#rodoku_submit img").on("mousedown", function()
+    {
+        $(this).attr("src", "/img/submit_pushed.gif");
+    });
+
+    $("#rodoku_submit img").on("mouseup mouseout", function()
+    {
+        $(this).attr("src", "/img/submit_normal.gif");
     });
 
     function load_text_change(text)
