@@ -18,6 +18,9 @@ sub voice2wav
     # クライアントの接続のタイムアウト時間の変更
     $self->inactivity_timeout($config->{inactivity_timeout});
 
+    # WebSocketのメッセージサイズの最大値を変更
+    $tx->max_websocket_size($config->{max_websocket_size});
+
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
