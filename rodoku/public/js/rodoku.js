@@ -12,9 +12,8 @@ $(function()
     var beforeSecond = 0.2;
 
     // ここに録音用音声データを保存
-    var recentReceivedVoice = null;
-    var recentSavedVoice    = null;
-    var savedVoice          = [];
+    var recentSavedVoice = null;
+    var savedVoiceList   = [ [ ] ];
 
     var is_recording = false; // 音声録音中か否か
     var is_playing   = false; // 音声再生中か否か
@@ -279,10 +278,14 @@ $(function()
 
         //console.log(channel);
 
+        var savedVoice = [];
+
         for (var i = 0; i < data.length; i++)
         {
             savedVoice.push(data[i]);
         }
+
+        savedVoiceList.push(savedVoice);
 
         // WAV形式に変換
         var dataview  = encodeWAV(mergeBuffers(data));
@@ -309,7 +312,7 @@ $(function()
 
         var time = year + "年" + month + "月" + day + "日 " + hour + "時" + minute + "分" + second + "秒";
 
-        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a></li>');
+        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>　[<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>]</li>');
 
         function srcendedCallback(event)
         {
@@ -475,6 +478,13 @@ $(function()
 
     $("#rodoku_submit img").on("click", function()
     {
+        var savedVoice = [];
+
+        for (var i = 0; i < savedVoiceList.length; i++)
+        {
+            Array.prototype.push.apply(savedVoice, savedVoiceList[i]);
+        }
+
         var dataview  = encodeWAV(mergeBuffers(savedVoice));
         var audioBlob = new Blob([ dataview ], { type: "audio/wav" });
 
@@ -483,7 +493,7 @@ $(function()
         // 次の朗読に備えてクリア
         $("#voice_list").empty();
         $("#rodoku_submit").hide("normal");
-        savedVoice = [];
+        savedVoiceList = [ [] ];
     });
 
     $("#rodoku_submit img").on("mousedown", function()
@@ -545,6 +555,14 @@ $(function()
         }
 
         update_page_no();
+    });
+
+    $("body").on("click", "span.savedVoice", function()
+    {
+        // 削除をクリックで連結対象の音声を削除する
+        $(this).parent().remove();
+        var savedVoiceIndex = $(this).attr("id").split("-")[1];
+        savedVoiceList.splice(savedVoiceIndex, 1);
     });
 
     function update_page_no()
