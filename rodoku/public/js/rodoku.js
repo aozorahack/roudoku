@@ -38,13 +38,21 @@ $(function()
     var record_cnt  = 0;
 
     // 音声可視化用
-    var WIDTH       = 640;
-    var HEIGHT      = 360;
+    var WIDTH       = 256;
+    var HEIGHT      = 128;
     var canvas      = document.querySelector('canvas');
     var drawContext = canvas.getContext('2d');
 
     // 状態表示用
     var status_elem = document.querySelector('#status');
+
+    // 朗読対象テキスト表示用
+    var rodoku_text_elem = $("#rodoku-text #text");
+    var page_no_elem     = $("#no input");
+    var page_max_elem    = $("#no span");
+    var page_max         = 0;
+    var pe;
+    var page_list = [];
 
     // その他
     var numChannels = 1;
@@ -490,6 +498,73 @@ $(function()
 
     function load_text_change(text)
     {
-        console.log("text: " + text);
+        pe = Nehan.createPagedElement({ layout: { fontImgRoot:"//nehan.googlecode.com/hg/char-img", fontFamily:"'ヒラギノ明朝 Pro W3','Hiragino Mincho Pro','HiraMinProN-W3','ヒラギノ明朝 W3 JIS2004','IPAex明朝','IPAex Mincho','IPA明朝','IPA Mincho','Meiryo','メイリオ','ＭＳ 明朝','MS Mincho', monospace" } });
+
+        page_list = [];
+
+        pe.setStyle("body", {
+               "flow": "tb-rl",
+          "font-size": 16,
+              "width": 646,
+             "height": 256,
+        });
+
+        pe.setContent(text, {
+            onProgress: function(tree) { page_max = tree.pageNo + 1; page_max_elem.text(page_max); },
+            onComplete: function(time)
+            {
+                console.log(time + " ms");
+
+                if (page_max != 0)
+                {
+                    page_no_elem.attr("max", page_max);
+                    update_page_no();
+                }
+            }
+        });
+
+        page_list[1] = pe.getElement().innerHTML;
+        rodoku_text_elem.html(page_list[1]);
+    }
+
+    document.getElementById("next").onclick  = function() { if (page_max !== 0) { pe.setNextPage();          update_page_no(); } };
+    document.getElementById("prev").onclick  = function() { if (page_max !== 0) { pe.setPrevPage();          update_page_no(); } };
+    document.getElementById("first").onclick = function() { if (page_max !== 0) { pe.setPage(0);             update_page_no(); } };
+    document.getElementById("last").onclick  = function() { if (page_max !== 0) { pe.setPage(page_max - 1);  update_page_no(); } };
+
+    page_no_elem.on("change", function()
+    {
+        var page_no = num_z2h( $(this).val() );
+
+        try {
+            pe.setPage(page_no - 1);
+        }
+        catch(e) {
+            console.log("ページが見つかりませんでした");
+            return;
+        }
+
+        update_page_no();
+    });
+
+    function update_page_no()
+    {
+        var no = pe.pageNo + 1;
+
+        if (page_list[no] == null) { var html = pe.getElement(); page_list[no] = html.innerHTML; } // page_list はIEでページを戻るときに内容が消えるバグを防ぐ用
+
+        rodoku_text_elem.html(page_list[no]);
+
+        page_no_elem.val(no);
+    }
+
+    function num_z2h(a)
+    {
+        return a.replace(/[０１２３４５６７８９]/g
+            , function(a){
+                var b = "０１２３４５６７８９".indexOf(a);
+                return (b !== -1) ? b : a;
+            }
+        );
     }
 });

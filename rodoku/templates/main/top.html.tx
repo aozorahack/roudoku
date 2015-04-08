@@ -4,11 +4,13 @@
 
 : include layouts::header
 
+<link rel="stylesheet" href="/css/nehan.css">
+
 <p>マイクを使って朗読しよう♪</p>
 <p>状態：<span id="status">待機中</span></p>
 
 <div id="visualization">
-  <canvas></canvas>
+  <canvas width="256" height="128"></canvas>
 </div>
 
 <p>朗読するテキスト：<select id="rodoku_text">
@@ -17,6 +19,17 @@
   <option value="yukinoyoru">雪の夜の話</option>
   <option value="yamanashi">やまなし</option>
 </select></p>
+
+<div id="rodoku-text">
+  <div id="text"></div>
+  <div id="pager">
+    <div id="last"><button><img src="/img/left_arrows.gif" alt="" width="10" height="8"> 最後のページ</button></div>
+    <div id="next"><button><img src="/img/left_arrow.gif" alt="" width="5" height="8"> 次のページ</button></div>
+    <div id="no"><input type="number" value="1" min="1" max="1" step="1" style="width:43px;"> / <span>1</span></div>
+    <div id="prev"><button>前のページ <img src="/img/right_arrow.gif" alt="" width="5" height="8"></button></div>
+    <div id="first"><button>最初のページ <img src="/img/right_arrows.gif" alt="" width="10" height="8"></button></div>
+  </div>
+</div>
 
 <ol id="voice_list">
 </ol>
@@ -28,7 +41,7 @@
 : include layouts::footer
 
 <script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
+<script src="/js/nehan.min.js"></script>
 <script src="/js/rodoku.js"></script>
-<script src="/js/nehan.js"></script>
 
 : }

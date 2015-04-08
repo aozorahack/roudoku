@@ -83,6 +83,62 @@ select
 div#visualization { text-align: center; }
 span#status       { font-weight: bold;  }
 
+div#rodoku-text
+{
+}
+
+div#rodoku-text div#text
+{
+    padding: 20px;
+    border: 2px solid #aaa;
+    border-bottom: 0px;
+}
+
+div#rodoku-text div#pager
+{
+    display: table;
+    border: 1px solid #aaa;
+    border: 2px solid #aaa;
+}
+
+div#rodoku-text div#pager button
+{
+    width: 100%;
+    padding: 5px 6px;
+}
+
+div#rodoku-text div#pager button img
+{
+    margin-top: -3px;
+    vertical-align: middle;
+}
+
+div#rodoku-text div#last,
+div#rodoku-text div#next,
+div#rodoku-text div#no,
+div#rodoku-text div#prev,
+div#rodoku-text div#first
+{
+    display: table-cell;
+    text-align: center;
+}
+
+div#rodoku-text div#last,
+div#rodoku-text div#next,
+div#rodoku-text div#prev,
+div#rodoku-text div#first
+{
+    width: 133px; /* ( (body の width) - (div#no の width) ) / 4 */
+}
+
+div#rodoku-text div#no
+{
+    width: 160px;
+}
+
+div#rodoku-text div#next img { padding-right: 2px; }
+div#rodoku-text div#prev img { padding-left:  2px; }
+
 div#rodoku_submit
 {
     text-align: center;
