@@ -563,6 +563,14 @@ $(function()
         $(this).parent().remove();
         var savedVoiceIndex = $(this).attr("id").split("-")[1];
         savedVoiceList.splice(savedVoiceIndex, 1);
+
+        // 連結対象の音声が０個になったら投稿フォームを隠す
+        var numSavedVoice = $("#voice_list li").length;
+
+        if (numSavedVoice === 0)
+        {
+            $("#rodoku_submit").hide("normal");
+        }
     });
 
     function update_page_no()
