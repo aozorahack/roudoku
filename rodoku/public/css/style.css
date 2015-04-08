@@ -144,3 +144,9 @@ div#rodoku_submit
     text-align: center;
     display: none;
 }
+
+div#rodoku_submit div#profile
+{
+    text-align: left;
+    padding-bottom: 5px;
+}
