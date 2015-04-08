@@ -18,7 +18,12 @@
   <option value="yamanashi">やまなし</option>
 </select></p>
 
-<p><a id="download" target="_blank">ダウンロード</a></p>
+<ol id="voice_list">
+</ol>
+
+<div id="rodoku_submit">
+  <img src="/img/submit_normal.gif" width="240" height="40" alt="朗読を投稿する">
+</div>
 
 : include layouts::footer
 
