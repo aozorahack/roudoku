@@ -12,7 +12,7 @@ $(function()
 
     // WAVデータ・朗読するテキストの名前の送信用
     var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
-    var uri                 = 'ws://' + location.hostname + '/voice2wav';
+    var uri                 = 'wss://' + location.hostname + '/voice2wav';
     var ws                  = new WebSocket(uri);
     ws.binaryType           = 'arraybuffer';
 
