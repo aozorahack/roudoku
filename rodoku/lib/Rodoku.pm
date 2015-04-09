@@ -25,7 +25,7 @@ sub startup
     Data::Lock::dunlock $config->{hypnotoad}; # hypnotoad はサーバ起動時に一部書き換えが発生するので例外
 
     # ヘルパーメソッドの登録
-    $app->helper( uniqkey    => sub { Data::UUID->new->create_hex;                      });
+    $app->helper( uniqkey    => sub { Data::UUID->new->create_str;                      });
     $app->helper( timestamp  => sub { Time::Moment->now->strftime('%Y/%m/%d %H:%M:%S'); });
     $app->helper( timestampf => sub { Time::Moment->now->strftime('%Y-%m-%d_%H-%M-%S'); }); # ファイル名用
 

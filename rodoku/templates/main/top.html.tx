@@ -14,10 +14,14 @@
 </div>
 
 <p>朗読するテキスト：<select id="rodoku_text">
-  <option value="" selected>選択してください</option>
+  <option value="test" selected>選択してください</option>
   <option value="hayakuchi">早口言葉</option>
   <option value="yukinoyoru">雪の夜の話</option>
   <option value="yamanashi">やまなし</option>
+</select></p>
+
+<p>再生する朗読：<select id="rodoku_list">
+  <option value="" selected>選択してください</option>
 </select></p>
 
 <div id="rodoku-text">
@@ -35,7 +39,7 @@
 </ol>
 
 <div id="rodoku_submit">
-  <div id="profile">名前：<input type="text" size="12" value="ななし"></div>
+  <div id="profile">名前：<input type="text" size="12" value="nanashi"></div>
   <img src="/img/submit_normal.gif" width="240" height="40" alt="朗読を投稿する">
 </div>
 

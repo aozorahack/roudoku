@@ -23,16 +23,27 @@ sub voice2wav
 
     my $username = $config->{default_username};
 
+    my $textname = 'test'; # 朗読対象のテキストの名前（保存パスに利用）
+
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
-        my $file_path = $config->{rodoku_voice_dir} . $self->uniqkey . '_'  . $self->timestampf . '.wav';
+        my $file_path = $config->{rodoku_voice_dir} . $textname . '/' . $username . '_' . $self->timestampf . '_'  . $self->uniqkey . '.wav';
 
         # 音声をファイルに保存
         open(my $fh, '>', $file_path) or die $!;
         binmode($fh);
         print {$fh} $bytes;
         close($fh);
+
+        # 朗読リストを更新
+        my $dir_path = $config->{rodoku_voice_dir} . $textname;
+
+        opendir(my $dh, $dir_path);
+        my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;
+        closedir($dh);
+
+        $tx->send( { json => { type => 'rodoku_list_update', rodoku_list => \@rodoku_wav_list } } );
     });
 
     $self->on(json => sub {
@@ -44,32 +55,51 @@ sub voice2wav
 
         if ($type eq 'text-select')
         {
-            my $text_name = $json->{'text-name'};
+            my $text_name = $json->{'text-name'} // 'test';
             my $file_path = $config->{rodoku_text_dir} . $text_name . '.txt';
 
-            if ( $text_name =~ /^[a-zA-Z0-9]+$/ && -e $file_path )
+            if ( $text_name =~ /^[a-zA-Z0-9-]+$/ && -e $file_path )
             {
-
                 open(my $fh, '<', $file_path) or $tx->send( { json => { type => $type, error => 'ファイルの読み込みに失敗しました。' } } );
                 my $text = Encode::decode_utf8( do { local $/; <$fh> } );
                 close($fh);
 
-                $tx->send( { json => { type => $type, text => $text } } );
+                my $dir_path = $config->{rodoku_voice_dir} . $text_name;
+
+                opendir(my $dh, $dir_path);
+                my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;
+                closedir($dh);
+
+                $tx->send( { json => { type => $type, text => $text, rodoku_list => \@rodoku_wav_list } } );
+
+                $textname = $text_name;
             }
             else
             {
                 $tx->send( { json => { type => $type, error => '朗読するテキストの選択が不正です。' } } );
             }
         }
+        elsif ($type eq 'rodoku-reproduction')
+        {
+            my $file_path = $config->{rodoku_voice_dir} . $textname . '/' . $json->{filename};
+
+            open(my $fh, '<', $file_path) or die $!;
+            binmode($fh);
+            my $size = -s $file_path;
+            read($fh, my $buffer, $size, 0);
+            close($fh);
+
+            $tx->send({ binary => $buffer });
+        }
         elsif ($type eq 'username-change')
         {
-            if ($json->{username} =~ /^\p{InUserName}+$/)
+            if ($json->{username} =~ /^[a-zA-Z0-9-]+$/)
             {
                 $username = $json->{username};
             }
             else
             {
-                $tx->send( { json => { type => $type, error => 'ひらがな・カタカナ・アルファベット・漢字で入力してください' } } );
+                $tx->send( { json => { type => $type, error => '名前は英語のアルファベットで入力してください' } } );
             }
         }
     });
@@ -79,26 +109,6 @@ sub voice2wav
 
         # keep alive
     });
-}
-
-sub InUserName
-{
-    # 0021-007E 英語のアルファベットや半角の記号など
-    # 3005      々
-    # 3041-3096 ひらがな
-    # 309D      ゝ
-    # 309E      ゞ
-    # 30A1-30FE カタカナ
-
-    return <<"END";
-0021\t007E
-3005
-3041\t3096
-309D
-309E
-30A1\t30FE
-+utf8::Han
-END
 }
 
 1;

@@ -27,6 +27,8 @@ a:hover,
 .savedVoice:hover
 { text-decoration: underline; }
 
+.savedVoice { cursor: pointer; }
+
 h1,
 footer
 { text-align: center; }

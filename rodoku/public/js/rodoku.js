@@ -6,6 +6,7 @@ $(function()
     var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
     var uri                 = 'ws://' + location.hostname + '/voice2wav';
     var ws                  = new WebSocket(uri);
+    ws.binaryType           = 'arraybuffer';
 
     // 音声バッファ時間(音声録音開始前時間)
     // この値が音声録音開始イベント前の音声録音時間
@@ -58,6 +59,7 @@ $(function()
 
     // その他
     var numChannels = 1;
+    var src;
 
     for (var i = 0; i < analyser.length; i++)
     {
@@ -198,7 +200,7 @@ $(function()
         if ( ! is_recording )
         {
             //if ( ave_gain[0] > 120 && ! is_playing )
-            if (ave_gain[0] > 120)
+            if (ave_gain[0] > 100)
             {
                 console.log("record start");
                 onRecognized();
@@ -269,7 +271,7 @@ $(function()
             }
         }
 
-        var src = audioContext.createBufferSource();
+        src = audioContext.createBufferSource();
         src.onended = srcendedCallback;
         src.buffer = buf;
         src.playbackRate.value = 1.0; // 再生スピード
@@ -455,23 +457,39 @@ $(function()
     ws.onerror   = function(e) { console.log(e); };
     ws.onmessage = function(e)
     {
-        var data = JSON.parse(e.data);
-
-        if (data.error)
+        if (e.data.constructor === String)
         {
-            if (data.type === 'text-select')
-            {
-                console.log(data.error);
-                return;
-            }
-            else if (data.type === 'username-change')
-            {
-                username_elem.val("ななし");
-                alert(data.error);
-            }
-        }
+            var data = JSON.parse(e.data);
 
-        if (data.type === 'text-select') { load_text_change(data.text); }
+            if (data.error)
+            {
+                if (data.type === 'text-select')
+                {
+                    console.log(data.error);
+                    return;
+                }
+                else if (data.type === 'username-change')
+                {
+                    username_elem.val("nanashi");
+                    alert(data.error);
+                }
+            }
+
+                 if (data.type === 'text-select')        { load_text(data.text); load_rodoku_list(data.rodoku_list); }
+            else if (data.type === 'rodoku_list_update') { load_rodoku_list(data.rodoku_list);                       }
+        }
+        else if (e.data.constructor === ArrayBuffer)
+        {
+            if (typeof src !== 'undefined') src.stop();
+
+            audioContext.decodeAudioData(e.data, function (buf) {
+                src = audioContext.createBufferSource();
+                src.buffer = buf;
+                src.playbackRate.value = 1.0; // 再生スピード
+                src.connect(audioContext.destination);
+                src.start(0); // 音声再生スタート
+            });
+        }
     };
 
     // オーディオバッファ初期化
@@ -518,7 +536,7 @@ $(function()
         $(this).attr("src", "/img/submit_normal.gif");
     });
 
-    function load_text_change(text)
+    function load_text(text)
     {
         pe = Nehan.createPagedElement({ layout: { fontImgRoot:"//nehan.googlecode.com/hg/char-img", fontFamily:"'ヒラギノ明朝 Pro W3','Hiragino Mincho Pro','HiraMinProN-W3','ヒラギノ明朝 W3 JIS2004','IPAex明朝','IPAex Mincho','IPA明朝','IPA Mincho','Meiryo','メイリオ','ＭＳ 明朝','MS Mincho', monospace" } });
 
@@ -549,6 +567,18 @@ $(function()
         rodoku_text_elem.html(page_list[1]);
     }
 
+    function load_rodoku_list(rodoku_list)
+    {
+        if (typeof src !== 'undefined') src.stop();
+
+        $("#rodoku_list").empty().append('<option value="" selected>選択してください</option>');
+
+        for (var i = 0; i < rodoku_list.length; i++)
+        {
+            $("#rodoku_list").append('<option value="' + rodoku_list[i] + '">' + rodoku_list[i] + '</option>');
+        }
+    }
+
     document.getElementById("next").onclick  = function() { if (page_max !== 0) { pe.setNextPage();          update_page_no(); } };
     document.getElementById("prev").onclick  = function() { if (page_max !== 0) { pe.setPrevPage();          update_page_no(); } };
     document.getElementById("first").onclick = function() { if (page_max !== 0) { pe.setPage(0);             update_page_no(); } };
@@ -567,6 +597,12 @@ $(function()
         }
 
         update_page_no();
+    });
+
+    $("#rodoku_list").on("change", function()
+    {
+        var filename = $(this).val();
+        ws.send( JSON.stringify({ "type": "rodoku-reproduction", "filename": filename }) );
     });
 
     // 朗読者の名前の更新処理
