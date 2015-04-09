@@ -141,6 +141,17 @@ div#rodoku-text div#no
 div#rodoku-text div#next img { padding-right: 2px; }
 div#rodoku-text div#prev img { padding-left:  2px; }
 
+#voice_list li
+{
+    line-height: 1.8;
+    padding-bottom: 10px;
+}
+
+#voice_list li input
+{
+    width: 100%;
+}
+
 div#rodoku_submit
 {
     text-align: center;

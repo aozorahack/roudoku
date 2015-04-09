@@ -2,6 +2,14 @@
 
 $(function()
 {
+    // Web Speech API で何をしゃべったかメモ
+    var recognition = new webkitSpeechRecognition();
+    recognition.continuous     = true; // 複数の連続した認識を有効にする
+    recognition.interimResults = true; // 途中結果を返す
+    recognition.lang           = 'ja'; // 指定しない場合はドキュメントルートのlangが使われる（BCP 47 を参照）
+    recognition.start();
+    var spoken = '';
+
     // WAVデータ・朗読するテキストの名前の送信用
     var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
     var uri                 = 'ws://' + location.hostname + '/voice2wav';
@@ -217,6 +225,13 @@ $(function()
 
                 if (record_cnt > 50)
                 {
+                    is_recording = false;
+                    console.log("record finish");
+                    status_elem.innerText = "音声認識できませんでした（待機中）";
+                    status_elem.style.color = "black";
+
+                    // 音声認識が終わったら、音声録音終了に切り替えたのでコメントアウト
+                    /*
                     is_playing   = true;
                     is_recording = false;
                     status_elem.innerText = "待機中";
@@ -224,6 +239,7 @@ $(function()
                     console.log("record finish");
                     //console.debug('PlaySavedVoice', recentSavedVoice);
                     playVoice(recentSavedVoice);
+                    */
                 }
             }
             else
@@ -317,7 +333,7 @@ $(function()
 
         var time = year + "年" + month + "月" + day + "日 " + hour + "時" + minute + "分" + second + "秒";
 
-        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>　[<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>]</li>');
+        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>（' + Math.floor(audioBlob.size / 1024) +  'KB） [<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>] <br><input type="text" value="' + spoken  + '" placeholder="メモを書けます。"></li>');
 
         function srcendedCallback(event)
         {
@@ -648,4 +664,41 @@ $(function()
             }
         );
     }
+
+    recognition.onresult = function(event)
+    {
+        var result = event.results[event.results.length - 1];
+
+        if (result.isFinal)
+        {
+            console.log("音声認識されました");
+
+            spoken = result[0].transcript.trim();
+
+            is_playing   = true;
+            is_recording = false;
+            status_elem.innerText = "待機中";
+            status_elem.style.color = "black";
+            console.log("record finish");
+            playVoice(recentSavedVoice);
+
+            console.log(spoken);
+        }
+    };
+
+    recognition.onstart = function()
+    {
+        console.log("音声認識スタート！");
+    };
+
+    recognition.onerror = function(event)
+    {
+        console.log("音声認識エラー：" + event.error);
+    };
+
+    recognition.onend = function()
+    {
+        console.log("音声認識を終了しました");
+        recognition.start();
+    };
 });
