@@ -67,6 +67,7 @@ canvas
 {
     border: 1px solid #333;
     margin-bottom: 20px;
+    background-color: #fff;
 }
 
 p
@@ -85,8 +86,17 @@ select
 div#visualization { text-align: center; }
 span#status       { font-weight: bold;  }
 
+#desc
+{
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 15px;
+}
+
 div#rodoku-text
 {
+    background-color: #fff;
 }
 
 div#rodoku-text div#text
@@ -141,6 +151,8 @@ div#rodoku-text div#no
 div#rodoku-text div#next img { padding-right: 2px; }
 div#rodoku-text div#prev img { padding-left:  2px; }
 
+#voice_list { display: none; }
+
 #voice_list li
 {
     line-height: 1.8;
@@ -161,5 +173,5 @@ div#rodoku_submit
 div#rodoku_submit div#profile
 {
     text-align: left;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }

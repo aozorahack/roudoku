@@ -275,6 +275,8 @@ $(function()
     // dataは再生する音声データ
     function playVoice(data)
     {
+        if (data == null) return;
+
         var buf     = audioContext.createBuffer(1, data.length * bufferSize, sampleRate);
         var channel = buf.getChannelData(0);
 
@@ -320,6 +322,7 @@ $(function()
 
         //ws.send(audioBlob);
 
+        $("#voice_list").show("normal");
         $("#rodoku_submit").show("normal");
 
         var now    = new Date();
@@ -333,7 +336,7 @@ $(function()
 
         var time = year + "年" + month + "月" + day + "日 " + hour + "時" + minute + "分" + second + "秒";
 
-        $("#voice_list").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>（' + Math.floor(audioBlob.size / 1024) +  'KB） [<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>] <br><input type="text" value="' + spoken  + '" placeholder="メモを書けます。"></li>');
+        $("#voice_list ol").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>（' + Math.floor(audioBlob.size / 1024) +  'KB） [<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>] <br><input type="text" value="' + spoken  + '" placeholder="メモを書けます。"></li>');
 
         function srcendedCallback(event)
         {
@@ -537,7 +540,8 @@ $(function()
         ws.send(audioBlob); // 音声データを結合して保存
 
         // 次の朗読に備えてクリア
-        $("#voice_list").empty();
+        $("#voice_list ol").empty();
+        $("#voice_list").hide("normal");
         $("#rodoku_submit").hide("normal");
         savedVoiceList = [ [] ];
     });
@@ -635,11 +639,12 @@ $(function()
         var savedVoiceIndex = $(this).attr("id").split("-")[1];
         savedVoiceList.splice(savedVoiceIndex, 1);
 
-        // 連結対象の音声が０個になったら投稿フォームを隠す
+        // 連結対象の音声が０個になったら連結対象音声を隠す
         var numSavedVoice = $("#voice_list li").length;
 
         if (numSavedVoice === 0)
         {
+            $("#voice_list").hide("normal");
             $("#rodoku_submit").hide("normal");
         }
     });
