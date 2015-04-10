@@ -208,7 +208,7 @@ $(function()
         if ( ! is_recording )
         {
             //if ( ave_gain[0] > 120 && ! is_playing )
-            if (ave_gain[0] > 100)
+            if (ave_gain[0] > 80)
             {
                 console.log("record start");
                 onRecognized();
@@ -337,6 +337,7 @@ $(function()
         var time = year + "年" + month + "月" + day + "日 " + hour + "時" + minute + "分" + second + "秒";
 
         $("#voice_list ol").append('<li><a href="' + url + '" target="_blank">' + time + ' に録音された音声</a>（' + Math.floor(audioBlob.size / 1024) +  'KB） [<span id="savedVoice-' + (savedVoiceList.length - 1) + '" class="savedVoice">削除</span>] <br><input type="text" value="' + spoken  + '" placeholder="メモを書けます。"></li>');
+        $("#voice_list").scrollTop($("#voice_list")[0].scrollHeight);
 
         function srcendedCallback(event)
         {
@@ -676,18 +677,22 @@ $(function()
 
         if (result.isFinal)
         {
-            console.log("音声認識されました");
+            if (recentSavedVoice !== null)
+            {
+                console.log("音声認識されました");
+                spoken = result[0].transcript.trim();
 
-            spoken = result[0].transcript.trim();
+                is_playing   = true;
+                is_recording = false;
+                status_elem.innerText = "待機中";
+                status_elem.style.color = "black";
+                console.log("record finish");
+                playVoice(recentSavedVoice);
 
-            is_playing   = true;
-            is_recording = false;
-            status_elem.innerText = "待機中";
-            status_elem.style.color = "black";
-            console.log("record finish");
-            playVoice(recentSavedVoice);
+                console.log(spoken);
+            }
 
-            console.log(spoken);
+            recentSavedVoice = null;
         }
     };
 
