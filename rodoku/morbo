@@ -1,5 +1,5 @@
 #!/bin/sh
 
-APP_DIR=/Users/kohei/Desktop/www/rodoku
+APP_DIR=/Users/pawa/Desktop/www/rodoku
 cd $APP_DIR
-exec /Users/kohei/.anyenv/envs/plenv/shims/carton exec -- morbo $* script/rodoku
+exec /Users/pawa/.plenv/shims/carton exec -- morbo $* script/rodoku
