@@ -4,6 +4,7 @@ requires  'MojoX::Renderer::Xslate',    '>= 0.09';
 requires  'Mojolicious::Plugin::MailException', '>= 0.17';
 requires  'IO::Socket::SSL',            '>= 2.006';
 requires  'IO::Socket::IP',             '>= 0.33';
+requires  'IO::String',                 '>= 1.08';
 requires  'Data::Lock',                 '>= 1.00';
 requires  'Data::UUID',                 '>= 1.220';
 requires  'Data::Printer',              '>= 0.35';
