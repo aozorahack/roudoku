@@ -22,6 +22,7 @@ my $dbi = DBIx::Custom->connect(
 );
 
 my $ua = LWP::UserAgent->new;
+$ua->timeout(60 * 10); # タイムアウト：10分
 
 $dbi->execute(q|PRAGMA foreign_keys = ON|);
 
