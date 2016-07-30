@@ -14,6 +14,7 @@ requires  'DBD::SQLite',                '>= 1.42';
 requires  'DBIx::Custom',               '>= 0.26';
 requires  'DBIx::Connector',            '>= 0.53',
 requires  'Time::Moment',               '>= 0.20',
+requires  'LWP::UserAgent',             '>= 6.15',
 
 on 'test' => sub {
     requires 'Test::More';
