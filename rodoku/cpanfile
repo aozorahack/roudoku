@@ -7,6 +7,7 @@ requires  'IO::Socket::IP',             '>= 0.33';
 requires  'Data::Lock',                 '>= 1.00';
 requires  'Data::UUID',                 '>= 1.220';
 requires  'Data::Printer',              '>= 0.35';
+requires  'Text::CSV',                  '>= 1.33';
 requires  'Text::Xslate',               '>= 3.2.5';
 requires  'DBI',                        '>= 1.631';
 requires  'DBD::SQLite',                '>= 1.42';
