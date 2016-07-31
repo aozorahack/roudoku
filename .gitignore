@@ -6,3 +6,4 @@ rodoku/tmp/*
 rodoku/rodoku_voice/*
 rodoku/cpanfile.snapshot
 rodoku/script/hypnotoad.pid
+rodoku/bunko.sqlite3
