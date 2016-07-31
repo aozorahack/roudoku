@@ -4,13 +4,16 @@ $(function()
 {
     var mode = 'production';
 
-    // Web Speech API で何をしゃべったかメモ
-    //var recognition = new webkitSpeechRecognition();
-    //recognition.continuous     = true; // 複数の連続した認識を有効にする
-    //recognition.interimResults = true; // 途中結果を返す
-    //recognition.lang           = 'ja'; // 指定しない場合はドキュメントルートのlangが使われる（BCP 47 を参照）
-    //recognition.start();
-    var spoken = '';
+    var is_use_speech_recognition = false; // 音声認識を使うか（使うと、雑音は録音されなくなるけど、普通の声も録音されづらくなる）
+
+    var recognition = new webkitSpeechRecognition();
+    recognition.continuous     = true; // 複数の連続した認識を有効にする
+    recognition.interimResults = true; // 途中結果を返す
+    recognition.lang           = 'ja'; // 指定しない場合はドキュメントルートのlangが使われる（BCP 47 を参照）
+
+    if (is_use_speech_recognition) recognition.start();
+
+    var spoken = ''; // Web Speech API で何をしゃべったかメモ
 
     // WAVデータ・朗読するテキストの名前の送信用
     var keep_alive_interval = 180000; // ms（config の inactivity_timeout より小さい値でなければならない）
@@ -237,21 +240,23 @@ $(function()
 
                 if (record_cnt > 50)
                 {
-                    is_recording = false;
-                    console.log("record finish");
-                    status_elem.innerText = "音声認識できませんでした（待機中）";
-                    status_elem.style.color = "black";
-
-                    // 音声認識が終わったら、音声録音終了に切り替えたのでコメントアウト
-                    /*
-                    is_playing   = true;
-                    is_recording = false;
-                    status_elem.innerText = "待機中";
-                    status_elem.style.color = "black";
-                    console.log("record finish");
-                    //console.debug('PlaySavedVoice', recentSavedVoice);
-                    playVoice(recentSavedVoice);
-                    */
+                    if (is_use_speech_recognition)
+                    {
+                        is_recording = false;
+                        console.log("record finish");
+                        status_elem.innerText = "音声認識できませんでした（待機中）";
+                        status_elem.style.color = "black";
+                    }
+                    else
+                    {
+                        is_playing   = true;
+                        is_recording = false;
+                        status_elem.innerText = "待機中";
+                        status_elem.style.color = "black";
+                        console.log("record finish");
+                        //console.debug('PlaySavedVoice', recentSavedVoice);
+                        playVoice(recentSavedVoice);
+                    }
                 }
             }
             else
@@ -520,7 +525,7 @@ $(function()
         {
             if (typeof src !== 'undefined') src.stop();
 
-            console.log(e);
+            if (mode === 'debug') console.log(e);
 
             audioContext.decodeAudioData(e.data, function (buf) {
                 src = audioContext.createBufferSource();
@@ -691,44 +696,44 @@ $(function()
         );
     }
 
-    //recognition.onresult = function(event)
-    //{
-    //    var result = event.results[event.results.length - 1];
+    recognition.onresult = function(event)
+    {
+        var result = event.results[event.results.length - 1];
 
-    //    if (result.isFinal)
-    //    {
-    //        if (recentSavedVoice !== null)
-    //        {
-    //            console.log("音声認識されました");
-    //            spoken = result[0].transcript.trim();
+        if (result.isFinal)
+        {
+            if (recentSavedVoice !== null)
+            {
+                console.log("音声認識されました");
+                spoken = result[0].transcript.trim();
 
-    //            is_playing   = true;
-    //            is_recording = false;
-    //            status_elem.innerText = "待機中";
-    //            status_elem.style.color = "black";
-    //            console.log("record finish");
-    //            playVoice(recentSavedVoice);
+                is_playing   = true;
+                is_recording = false;
+                status_elem.innerText = "待機中";
+                status_elem.style.color = "black";
+                console.log("record finish");
+                playVoice(recentSavedVoice);
 
-    //            console.log(spoken);
-    //        }
+                console.log(spoken);
+            }
 
-    //        recentSavedVoice = null;
-    //    }
-    //};
+            recentSavedVoice = null;
+        }
+    };
 
-    //recognition.onstart = function()
-    //{
-    //    console.log("音声認識スタート！");
-    //};
+    recognition.onstart = function()
+    {
+        console.log("音声認識スタート！");
+    };
 
-    //recognition.onerror = function(event)
-    //{
-    //    console.log("音声認識エラー：" + event.error);
-    //};
+    recognition.onerror = function(event)
+    {
+        console.log("音声認識エラー：" + event.error);
+    };
 
-    //recognition.onend = function()
-    //{
-    //    console.log("音声認識を終了しました");
-    //    recognition.start();
-    //};
+    recognition.onend = function()
+    {
+        console.log("音声認識を終了しました");
+        recognition.start();
+    };
 });
