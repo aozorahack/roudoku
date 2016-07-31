@@ -17,7 +17,7 @@ sub fetch_work_list
         table  => 'work',
         column => [qw/id title subtitle/], # TODO: 著者名とかも欲しい
         append => 'ORDER BY id',
-        where  => { moji_type => '新字新仮名' },
+        where  => { moji_type => '新字新仮名' }, # FIXME: ユーザが選択できるようにしたい
     )->fetch_hash_all // [];
 
     return $work_list;
