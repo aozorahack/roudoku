@@ -29,12 +29,12 @@ sub voice2wav
 
     my $username = $config->{default_username};
 
-    my $textname = 'test'; # 朗読対象のテキストの名前（保存パスに利用）
+    my $voice_work_dir = 'test'; # 朗読対象のテキストの名前（保存パスに利用）
 
     $self->on(binary => sub {
         my ($self, $bytes) = @_;
 
-        my $file_path = $config->{rodoku_voice_dir} . $textname . '/' . $username . '_' . $self->timestampf . '_'  . $self->uniqkey . '.wav';
+        my $file_path = $config->{rodoku_voice_dir} . $voice_work_dir . '/' . $username . '_' . $self->timestampf . '_'  . $self->uniqkey . '.wav';
 
         # 音声をファイルに保存
         open(my $fh, '>', $file_path) or die $!;
@@ -43,7 +43,7 @@ sub voice2wav
         close($fh);
 
         # 朗読リストを更新
-        my $dir_path = $config->{rodoku_voice_dir} . $textname;
+        my $dir_path = $config->{rodoku_voice_dir} . $voice_work_dir;
 
         opendir(my $dh, $dir_path);
         my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;
@@ -59,35 +59,24 @@ sub voice2wav
 
         return unless defined $type;
 
-        if ($type eq 'text-select')
+        if ($type eq 'work-select')
         {
-            my $text_name = $json->{'text-name'} // 'test';
-            my $file_path = $config->{rodoku_text_dir} . $text_name . '.txt';
+            my $work_id = $json->{'work_id'} // 'test';
 
-            if ( $text_name =~ /^[a-zA-Z0-9-]+$/ && -e $file_path )
-            {
-                open(my $fh, '<', $file_path) or $tx->send( { json => { type => $type, error => 'ファイルの読み込みに失敗しました。' } } );
-                my $text = Encode::decode_utf8( do { local $/; <$fh> } );
-                close($fh);
 
-                my $dir_path = $config->{rodoku_voice_dir} . $text_name;
+            my $dir_path = $config->{rodoku_voice_dir} . $work_id;
 
-                opendir(my $dh, $dir_path);
-                my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;
-                closedir($dh);
+            opendir(my $dh, $dir_path);
+            my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;
+            closedir($dh);
 
-                $tx->send( { json => { type => $type, text => $text, rodoku_list => \@rodoku_wav_list } } );
+            $tx->send( { json => { type => $type, text => $text, rodoku_list => \@rodoku_wav_list } } );
 
-                $textname = $text_name;
-            }
-            else
-            {
-                $tx->send( { json => { type => $type, error => '朗読するテキストの選択が不正です。' } } );
-            }
+            $voice_work_dir = $work_id;
         }
         elsif ($type eq 'rodoku-reproduction')
         {
-            my $file_path = $config->{rodoku_voice_dir} . $textname . '/' . $json->{filename};
+            my $file_path = $config->{rodoku_voice_dir} . $voice_work_dir . '/' . $json->{filename};
 
             open(my $fh, '<', $file_path) or die $!;
             binmode($fh);
