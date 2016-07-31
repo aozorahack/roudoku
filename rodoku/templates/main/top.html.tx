@@ -5,6 +5,7 @@
 : include layouts::header
 
 <link rel="stylesheet" href="/css/nehan.css">
+<link rel="stylesheet" href="/css/chosen.min.css">
 
 <p>マイクを使って朗読しよう♪</p>
 
@@ -22,13 +23,12 @@
   <canvas width="256" height="128"></canvas>
 </div>
 
-<p>朗読する作品：<select id="rodoku_text">
+<p>朗読する作品：<select id="work-list">
 <option value="test" selected>選択してください</option>
 : for $work_list -> $work {
   <option value="<: $work.id :>"><: $work.title :> <: $work.subtitle :></option>
 : }
 </select></p>
-
 
 <p>投稿済作品を聴く：<select id="rodoku_list">
   <option value="" selected>選択してください</option>
@@ -59,6 +59,7 @@
 
 <script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
 <script src="/js/nehan.min.js"></script>
+<script src="/js/chosen.jquery.min.js"></script>
 <script src="/js/rodoku.js"></script>
 
 : }

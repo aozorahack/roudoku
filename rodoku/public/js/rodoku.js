@@ -87,6 +87,9 @@ $(function()
     // 初期化用の空のデータ用意
     var nosound = new Float32Array(bufferSize);
 
+    // select要素を検索できるようにする
+    $("#work-list").chosen();
+
     // 音声録音開始前時間分のバッファ準備
     function initAudioData()
     {
