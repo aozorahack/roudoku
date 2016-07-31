@@ -63,7 +63,7 @@ sub voice2wav
         {
             my $work_id = $json->{'work_id'} // 'test';
 
-            my $text = $model->fetch_work_text($work_id);
+            my $text = text_normalize($model->fetch_work_text($work_id));
 
             my $dir_path = $config->{rodoku_voice_dir} . $work_id;
             mkdir($dir_path) unless -d $dir_path;
@@ -106,6 +106,20 @@ sub voice2wav
 
         # keep alive
     });
+}
+
+sub text_normalize
+{
+    local $_ = shift;
+    s/^.*----------+.+?----------+//sg;
+    s/［＃.*?］//g;
+    s/\n底本：「.*$//sg;
+    s/^(?:\u{000D}|\u{000A})+//;
+    s/(?:\u{000D}|\u{000A})+$//;
+    s/\n/<br>/g;
+    s/｜(.+?)《(.+?)》/<ruby>$1<rt>$2<\/rt><\/ruby>/g;
+    s/([\p{Han}]+)《(.+?)》/<ruby>$1<rt>$2<\/rt><\/ruby>/g;
+    return $_;
 }
 
 1;
