@@ -2,7 +2,7 @@
 
 $(function()
 {
-    var mode = 'test';
+    var mode = 'production';
 
     // Web Speech API で何をしゃべったかメモ
     //var recognition = new webkitSpeechRecognition();
@@ -87,7 +87,7 @@ $(function()
     // 音声録音開始前時間分のバッファ準備
     function initAudioData()
     {
-        if (mode === 'test') console.log('initAudioData');
+        if (mode === 'debug') console.log('initAudioData');
 
         audioData = [];
 
@@ -101,7 +101,7 @@ $(function()
     // onRecognized()を呼び出す処理は別途書く必要あり
     function onRecognized()
     {
-        if (mode === 'test') console.log('onRecognized');
+        if (mode === 'debug') console.log('onRecognized');
 
         //音声録音開始前時間分の音声データを保存
         recentSavedVoice = audioData;
@@ -113,7 +113,7 @@ $(function()
     // 毎音声処理
     function onAudioProcess(e)
     {
-        if (mode === 'test') console.log('onAudioProcess');
+        if (mode === 'debug') console.log('onAudioProcess');
 
         // 音声データを取得
         var input = e.inputBuffer.getChannelData(0);
@@ -142,14 +142,14 @@ $(function()
 
     function didntGetUserMedia(e)
     {
-        if (mode === 'test') console.log('didntGetUserMedia');
+        if (mode === 'debug') console.log('didntGetUserMedia');
 
         console.log(e);
     }
 
     var animation = function ()
     {
-        if (mode === 'test') console.log('animation');
+        if (mode === 'debug') console.log('animation');
 
         // 音声がしきい値以上で録音
         for (var i = 0; i < b_ave_gain.length; i++)
@@ -265,7 +265,7 @@ $(function()
 
     function gotUserMedia(stream)
     {
-        if (mode === 'test') console.log('gotUserMedia');
+        if (mode === 'debug') console.log('gotUserMedia');
 
         // 音声処理ノード
         var javascriptnode = audioContext.createScriptProcessor(bufferSize, 1, 1); // メソッド名がcreateJavaScriptNodeから変更された
@@ -282,7 +282,7 @@ $(function()
     // 音声処理開始
     function initialize()
     {
-        if (mode === 'test') console.log('initialize');
+        if (mode === 'debug') console.log('initialize');
 
         // audio:true で音声取得を有効にする
         getUserMedia({ "audio": true }, gotUserMedia, didntGetUserMedia);
@@ -291,7 +291,7 @@ $(function()
     // dataは再生する音声データ
     function playVoice(data)
     {
-        if (mode === 'test') console.log('playVoice');
+        if (mode === 'debug') console.log('playVoice');
 
         if (data == null) return;
 
