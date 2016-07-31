@@ -26,7 +26,7 @@
 <p>朗読する作品：<select id="work-list">
 <option value="test" selected>選択してください</option>
 : for $work_list -> $work {
-  <option value="<: $work.id :>"><: $work.title :> <: $work.subtitle :></option>
+  <option value="<: $work.id :>"><: $work.author :>『<: $work.title :> <: $work.subtitle :>』</option>
 : }
 </select></p>
 
