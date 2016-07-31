@@ -22,12 +22,13 @@
   <canvas width="256" height="128"></canvas>
 </div>
 
-<p>朗読するテキスト：<select id="rodoku_text">
-  <option value="test" selected>選択してください</option>
-  <option value="hayakuchi">早口言葉</option>
-  <option value="yukinoyoru">雪の夜の話</option>
-  <option value="yamanashi">やまなし</option>
+<p>朗読する作品：<select id="rodoku_text">
+<option value="test" selected>選択してください</option>
+: for $work_list -> $work {
+  <option value="<: $work.id :>"><: $work.title :> <: $work.subtitle :></option>
+: }
 </select></p>
+
 
 <p>投稿済作品を聴く：<select id="rodoku_list">
   <option value="" selected>選択してください</option>

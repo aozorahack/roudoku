@@ -2,12 +2,18 @@ package Rodoku::Controller::Main;
 use Mojo::Base 'Mojolicious::Controller';
 use Encode ();
 
-sub top { shift->render; }
+sub top
+{
+    my $self  = shift;
+    my $model = $self->model;
+    return $self->render(work_list => $model->fetch_work_list);
+}
 
 # 声をWAV形式に変換
 sub voice2wav
 {
     my $self   = shift;
+    my $model  = $self->model;
     my $config = $self->config;
     my $tx     = $self->tx;
 
