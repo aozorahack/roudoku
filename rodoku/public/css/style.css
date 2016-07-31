@@ -80,8 +80,12 @@ p
 form p { margin-left: 20px; }
 
 input[type="text"],
+
 select
-{ padding: 2px; }
+{
+    padding: 2px;
+    max-width: 500px;
+}
 
 div#visualization { text-align: center; }
 span#status       { font-weight: bold;  }

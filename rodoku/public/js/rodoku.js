@@ -87,6 +87,9 @@ $(function()
     // 初期化用の空のデータ用意
     var nosound = new Float32Array(bufferSize);
 
+    // select要素を検索できるようにする
+    $("#work-list").chosen();
+
     // 音声録音開始前時間分のバッファ準備
     function initAudioData()
     {
@@ -518,7 +521,7 @@ $(function()
                 }
             }
 
-                 if (data.type === 'text-select')        { load_text(data.text); load_rodoku_list(data.rodoku_list); }
+                 if (data.type === 'work-select')        { load_text(data.text); load_rodoku_list(data.rodoku_list); }
             else if (data.type === 'rodoku_list_update') { load_rodoku_list(data.rodoku_list);                       }
         }
         else if (e.data.constructor === ArrayBuffer)
@@ -543,11 +546,11 @@ $(function()
     // 音声処理開始
     initialize();
 
-    // 朗読するテキストの選択
-    $("#rodoku_text").on("change", function()
+    // 朗読する作品の選択
+    $("#work-list").on("change", function()
     {
-        var selected_text = $(this).val();
-        ws.send( JSON.stringify({ "type": "text-select", "text-name": selected_text }) );
+        var work_id = $(this).val();
+        ws.send( JSON.stringify({ "type": "work-select", "work_id": work_id }) );
     });
 
     // 「朗読を投稿する」画像をクリック時の処理

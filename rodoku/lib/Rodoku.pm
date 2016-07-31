@@ -1,5 +1,7 @@
 package Rodoku;
 use Mojo::Base 'Mojolicious';
+use Rodoku::Model;
+use DBIx::Custom  ();
 use Data::Lock    ();
 use Data::UUID    ();
 use Data::Printer ();
@@ -24,7 +26,12 @@ sub startup
     Data::Lock::dlock   $config;              # 設定をリードオンリーにする
     Data::Lock::dunlock $config->{hypnotoad}; # hypnotoad はサーバ起動時に一部書き換えが発生するので例外
 
+    # モデル
+    my $dbi   = DBIx::Custom->connect($config->{db});
+    my $model = Rodoku::Model->new(dbi => $dbi);
+
     # ヘルパーメソッドの登録
+    $app->helper( model      => sub { $model }                                           );
     $app->helper( uniqkey    => sub { Data::UUID->new->create_str;                      });
     $app->helper( timestamp  => sub { Time::Moment->now->strftime('%Y/%m/%d %H:%M:%S'); });
     $app->helper( timestampf => sub { Time::Moment->now->strftime('%Y-%m-%d_%H-%M-%S'); }); # ファイル名用

@@ -5,12 +5,13 @@
 : include layouts::header
 
 <link rel="stylesheet" href="/css/nehan.css">
+<link rel="stylesheet" href="/css/chosen.min.css">
 
 <p>マイクを使って朗読しよう♪</p>
 
 <div id="desc">
   <ol>
-    <li>朗読するテキストを選択する</li>
+    <li>朗読する作品を選択する</li>
     <li>マイクを使って朗読する</li>
     <li>連結する音声を整理して投稿する</li>
   </ol>
@@ -22,11 +23,11 @@
   <canvas width="256" height="128"></canvas>
 </div>
 
-<p>朗読するテキスト：<select id="rodoku_text">
-  <option value="test" selected>選択してください</option>
-  <option value="hayakuchi">早口言葉</option>
-  <option value="yukinoyoru">雪の夜の話</option>
-  <option value="yamanashi">やまなし</option>
+<p>朗読する作品：<select id="work-list">
+<option value="test" selected>選択してください</option>
+: for $work_list -> $work {
+  <option value="<: $work.id :>"><: $work.title :> <: $work.subtitle :></option>
+: }
 </select></p>
 
 <p>投稿済作品を聴く：<select id="rodoku_list">
@@ -58,6 +59,7 @@
 
 <script src="/js/adapter.js"></script><!-- WebRTC のクロスブラウザ用 -->
 <script src="/js/nehan.min.js"></script>
+<script src="/js/chosen.jquery.min.js"></script>
 <script src="/js/rodoku.js"></script>
 
 : }
