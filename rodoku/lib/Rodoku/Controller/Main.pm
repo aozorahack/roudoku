@@ -63,8 +63,10 @@ sub voice2wav
         {
             my $work_id = $json->{'work_id'} // 'test';
 
+            my $text = $model->fetch_work_text($work_id);
 
             my $dir_path = $config->{rodoku_voice_dir} . $work_id;
+            mkdir($dir_path) unless -d $dir_path;
 
             opendir(my $dh, $dir_path);
             my @rodoku_wav_list = grep { ! /^\..*$/ } readdir $dh;

@@ -521,7 +521,7 @@ $(function()
                 }
             }
 
-                 if (data.type === 'text-select')        { load_text(data.text); load_rodoku_list(data.rodoku_list); }
+                 if (data.type === 'work-select')        { load_text(data.text); load_rodoku_list(data.rodoku_list); }
             else if (data.type === 'rodoku_list_update') { load_rodoku_list(data.rodoku_list);                       }
         }
         else if (e.data.constructor === ArrayBuffer)

@@ -24,10 +24,14 @@ sub fetch_work_list
 
 sub fetch_work_text
 {
-    my ($self) = @_;
+    my ($self, $work_id) = @_;
 
     # TODO: いい具合にテキストを取得する
-    my $work_text = '';
+    my $work_text = $self->{dbi}->select(
+        table    => 'work',
+        column   => [qw/text_raw_utf8/],
+        where    => { id => $work_id },
+    )->value // '';
 
     return $work_text;
 }
