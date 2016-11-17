@@ -10,3 +10,9 @@ Web上で音声（朗読）を効率よく録音してWebサーバ上に保存�
 1. 「rodoku/」上で「carton install」して依存モジュールをインストール。
 2. 「rodoku/rodoku.conf」を編集。
 3. 「rodoku/rodoku」を実行して起動。
+
+
+## FAQ
+
+### `rodoku/rodoku.conf` で指定されている `bunko.sqlite3` というファイルがないのですが？
+`tools` 以下のファイルをよしなに実行すると `bunko.sqlite3` が作られます。
